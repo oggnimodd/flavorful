@@ -4,7 +4,6 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { viteCommonjs, esbuildCommonjs } from "@originjs/vite-plugin-commonjs";
-import babel from "vite-plugin-babel";
 // import { esbuildFlowPlugin } from "@bunchtogether/vite-plugin-flow";
 
 // https://tamagui.dev/docs/intro/installation
@@ -27,7 +26,7 @@ const development = process.env.NODE_ENV === "development";
 // https://vitejs.dev/config/
 export default defineConfig({
   clearScreen: true,
-  plugins: [tsconfigPaths(), viteCommonjs(), react(), babel()],
+  plugins: [tsconfigPaths(), viteCommonjs(), react()],
   define: {
     // https://github.com/bevacqua/dragula/issues/602#issuecomment-1296313369
     global: "window",

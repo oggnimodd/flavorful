@@ -4,11 +4,7 @@ import { AppRegistry } from "react-native";
 import App from "./App";
 import "./web.css";
 
-const Root = () => (
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+const Root = () => <App />;
 
 const rootTag = document.getElementById("root");
 AppRegistry.registerComponent("App", () => Root);

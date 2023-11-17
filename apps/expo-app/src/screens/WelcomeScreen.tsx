@@ -56,11 +56,11 @@ const WelcomeScreen: FC<Props> = ({ navigation }) => {
       </Animated.View>
 
       {/* title and punchline */}
-      <View style={tw`flex items-center space-y-2`}>
+      <View style={tw`flex items-center gap-y-2`}>
         <Text
           style={{
             fontSize: hp(7),
-            ...tw`font-bold text-white tracking-widest`,
+            ...tw`font-bold text-white text-center`,
           }}
         >
           Flavorful
@@ -68,7 +68,7 @@ const WelcomeScreen: FC<Props> = ({ navigation }) => {
         <Text
           style={{
             fontSize: hp(2),
-            ...tw`font-bold text-white tracking-widest`,
+            ...tw`font-bold text-white text-center`,
           }}
         >
           Discover flavor, discover life. Discover Flavorful.
