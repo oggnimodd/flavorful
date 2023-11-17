@@ -20,12 +20,10 @@
     "lint-staged": "15.0.1"
   },
   "lint-staged": {
-    "**/*.{js,ts,jsx,tsx}": [
+    "**/*.{js,ts,jsx,tsx,json}": [
       "biome check --apply .",
       "biome format --write ."
     ]
   },
-  "workspaces": [
-    "apps/expo-app"
-  ]
+  "workspaces": ["apps/expo-app"]
 }
