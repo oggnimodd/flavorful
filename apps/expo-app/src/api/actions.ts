@@ -6,10 +6,21 @@ export const getCategories = async (): Promise<Category[]> => {
   return response.data.categories;
 };
 
-export const getRecipes = async (category = "Beef"): Promise<Meal[]> => {
+export const getRecipesBasedOnCategory = async (
+  category = "Beef",
+): Promise<Meal[]> => {
   const response = await api.get<MealResponse>("filter.php", {
     params: {
       c: category,
+    },
+  });
+  return response.data.meals;
+};
+
+export const searchRecipes = async (searchQuery: string): Promise<Meal[]> => {
+  const response = await api.get<MealResponse>("search.php", {
+    params: {
+      s: searchQuery,
     },
   });
   return response.data.meals;

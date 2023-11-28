@@ -1,5 +1,12 @@
 // HomeScreen.tsx
-import { Image, Text, ScrollView, TextInput, View } from "react-native";
+import {
+  Image,
+  Text,
+  ScrollView,
+  TextInput,
+  View,
+  TouchableOpacity,
+} from "react-native";
 import tw from "twrnc";
 import { FC } from "react";
 import React, { useState } from "react";
@@ -10,31 +17,47 @@ import {
 } from "react-native-responsive-screen";
 import { BellIcon, MagnifyingGlassIcon } from "react-native-heroicons/outline";
 import { useQuery } from "@tanstack/react-query";
-import { getCategories, getRecipes } from "@/api";
+import { getCategories, getRecipesBasedOnCategory, searchRecipes } from "@/api";
 import { Categories, Recipes } from "@/components";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "./types";
+import { useDebouncedValue } from "@/hooks";
 
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, "HomeScreen">;
 
 const HomeScreen: FC<HomeScreenProps> = () => {
   const [activeCategory, setActiveCategory] = useState("Beef");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearchQuery] = useDebouncedValue(searchQuery, 500);
 
   const { data: categories } = useQuery({
     queryKey: ["categories"],
     queryFn: getCategories,
   });
+
   const {
     data: meals,
     isLoading,
     fetchStatus,
   } = useQuery({
     queryKey: ["recipes", activeCategory],
-    queryFn: () => getRecipes(activeCategory),
+    queryFn: () => getRecipesBasedOnCategory(activeCategory),
+    enabled: activeCategory !== "",
+  });
+
+  const {
+    data: searchResults,
+    isLoading: searchLoading,
+    fetchStatus: searchFetchStatus,
+  } = useQuery({
+    queryKey: ["search", debouncedSearchQuery],
+    queryFn: () => searchRecipes(debouncedSearchQuery),
+    enabled: debouncedSearchQuery !== "",
   });
 
   const handleChangeCategory = (category: string) => {
     setActiveCategory(category);
+    setSearchQuery("");
   };
 
   return (
@@ -56,7 +79,7 @@ const HomeScreen: FC<HomeScreenProps> = () => {
 
         {/* greetings and punchline */}
         <View style={tw`mx-4 gap-y-2 my-2`}>
-          <Text style={{ fontSize: hp(1.7) }}>Hello, Noman!</Text>
+          <Text style={{ fontSize: hp(1.7) }}>Hello There!</Text>
           <View>
             <Text style={{ fontSize: hp(3.8) }}>Make your own food,</Text>
           </View>
@@ -75,7 +98,16 @@ const HomeScreen: FC<HomeScreenProps> = () => {
             style={tw.style("flex-1 text-base mb-1 pl-3 tracking-wider", {
               fontSize: hp(1.7),
             })}
+            value={searchQuery}
+            onChangeText={(e) => {
+              setSearchQuery(e);
+              setActiveCategory("");
+            }}
+            onSubmitEditing={() => {
+              setActiveCategory("");
+            }}
           />
+
           <View style={tw`bg-white rounded-full p-3`}>
             <MagnifyingGlassIcon size={hp(2.5)} strokeWidth={3} color="gray" />
           </View>
@@ -94,8 +126,13 @@ const HomeScreen: FC<HomeScreenProps> = () => {
 
         {/* recipes */}
         <Recipes
-          meals={meals || []}
-          isLoading={isLoading && fetchStatus !== "idle"}
+          meals={
+            (searchResults || []).length > 0 ? searchResults || [] : meals || []
+          }
+          isLoading={
+            (isLoading && fetchStatus !== "idle") ||
+            (searchLoading && searchFetchStatus !== "idle")
+          }
         />
       </ScrollView>
     </View>
