@@ -14,3 +14,36 @@ export const getRecipes = async (category = "Beef"): Promise<Meal[]> => {
   });
   return response.data.meals;
 };
+
+export const getMealDetail = async (id: string): Promise<Meal> => {
+  const response = await api.get<MealResponse>("lookup.php", {
+    params: {
+      i: id,
+    },
+  });
+
+  return response.data.meals[0];
+};
+
+export const collectIngredients = (meal?: Meal) => {
+  if (!meal) return [];
+  return Object.keys(meal)
+    .map((key) => {
+      if (key.indexOf("strIngredient") === 0 && meal[key as keyof Meal]) {
+        return meal[key as keyof Meal];
+      }
+    })
+    .filter((meal) => meal);
+};
+
+export const collectMeasures = (meal?: Meal) => {
+  if (!meal) return [];
+
+  return Object.keys(meal)
+    .map((key) => {
+      if (key.indexOf("strMeasure") === 0 && meal[key as keyof Meal]) {
+        return meal[key as keyof Meal];
+      }
+    })
+    .filter((meal) => meal);
+};
