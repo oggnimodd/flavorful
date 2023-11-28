@@ -10,8 +10,10 @@ Flavorful is a mobile application built with React Native and Expo. The applicat
 ![Demo](./ss/demo.png)
 
 ## Try it now
-Scan this QR code using Expo Go
-<img src="./ss/expo-qr.svg">
+Scan this QR code using [Expo Go](https://expo.dev/client)
+<br/>
+<br/>
+<img width="300" src="./ss/expo-qr.svg">
 
 ## How to Develop Locally
 
