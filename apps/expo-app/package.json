@@ -6,8 +6,7 @@
     "android:tunnel": "expo start --tunnel",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web:expo": "expo start --web",
-    "web:vite": "bun vite"
+    "web": "bun vite"
   },
   "dependencies": {
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
