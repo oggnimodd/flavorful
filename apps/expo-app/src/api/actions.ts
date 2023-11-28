@@ -20,7 +20,7 @@ export const getRecipesBasedOnCategory = async (
 export const searchRecipes = async (searchQuery: string): Promise<Meal[]> => {
   const response = await api.get<MealResponse>("search.php", {
     params: {
-      s: searchQuery,
+      s: searchQuery.trim().toLowerCase(),
     },
   });
   return response.data.meals;

@@ -21,14 +21,13 @@ import { getCategories, getRecipesBasedOnCategory, searchRecipes } from "@/api";
 import { Categories, Recipes } from "@/components";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "./types";
-import { useDebouncedValue } from "@/hooks";
 
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, "HomeScreen">;
 
 const HomeScreen: FC<HomeScreenProps> = () => {
   const [activeCategory, setActiveCategory] = useState("Beef");
   const [searchQuery, setSearchQuery] = useState("");
-  const [debouncedSearchQuery] = useDebouncedValue(searchQuery, 500);
+  const [appliedSearch, setAppliedSearch] = useState(searchQuery);
 
   const { data: categories } = useQuery({
     queryKey: ["categories"],
@@ -50,14 +49,20 @@ const HomeScreen: FC<HomeScreenProps> = () => {
     isLoading: searchLoading,
     fetchStatus: searchFetchStatus,
   } = useQuery({
-    queryKey: ["search", debouncedSearchQuery],
-    queryFn: () => searchRecipes(debouncedSearchQuery),
-    enabled: debouncedSearchQuery !== "",
+    queryKey: ["search", appliedSearch],
+    queryFn: () => searchRecipes(appliedSearch),
+    enabled: appliedSearch !== "",
   });
 
   const handleChangeCategory = (category: string) => {
     setActiveCategory(category);
     setSearchQuery("");
+    setAppliedSearch("");
+  };
+
+  const handleApplySearch = () => {
+    setAppliedSearch(searchQuery);
+    setActiveCategory("");
   };
 
   return (
@@ -101,16 +106,19 @@ const HomeScreen: FC<HomeScreenProps> = () => {
             value={searchQuery}
             onChangeText={(e) => {
               setSearchQuery(e);
-              setActiveCategory("");
             }}
-            onSubmitEditing={() => {
-              setActiveCategory("");
-            }}
+            onSubmitEditing={handleApplySearch}
           />
 
-          <View style={tw`bg-white rounded-full p-3`}>
-            <MagnifyingGlassIcon size={hp(2.5)} strokeWidth={3} color="gray" />
-          </View>
+          <TouchableOpacity onPress={handleApplySearch}>
+            <View style={tw`bg-white rounded-full p-3`}>
+              <MagnifyingGlassIcon
+                size={hp(2.5)}
+                strokeWidth={3}
+                color="gray"
+              />
+            </View>
+          </TouchableOpacity>
         </View>
 
         {/* categories */}
