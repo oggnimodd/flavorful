@@ -9,6 +9,10 @@ Flavorful is a mobile application built with React Native and Expo. The applicat
 ## Screenshots
 ![Demo](./ss/demo.png)
 
+## Try it now
+Scan this QR code using Expo Go
+<img src="./ss/expo-qr.svg">
+
 ## How to Develop Locally
 
 To develop the Flavorful application locally, you need to follow these steps:
