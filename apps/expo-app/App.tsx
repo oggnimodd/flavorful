@@ -25,6 +25,7 @@ export default function App() {
             <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
             <Stack.Screen name="HomeScreen" component={HomeScreen} />
             <Stack.Screen
+              options={{ presentation: "fullScreenModal" }}
               name="RecipeDetailScreen"
               component={RecipeDetailScreen}
             />
