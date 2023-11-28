@@ -21,21 +21,26 @@ const Categories: FC<CategoryProps> = ({
   handleChangeCategory,
 }) => {
   return (
-    <Animated.View entering={FadeInDown.duration(500).springify()}>
+    <Animated.View
+      entering={FadeInDown.duration(500).springify()}
+      style={tw`mt-5`}
+    >
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        style={tw`space-x-4`}
-        contentContainerStyle={{ paddingHorizontal: 15 }}
+        contentContainerStyle={tw`px-4 gap-x-4`}
       >
         {categories.map((cat) => {
           const isActive = cat.strCategory === activeCategory;
           const activeButtonClass = isActive ? "bg-blue-400" : "bg-black/10";
+          const activeCategoryTextClass = isActive
+            ? "text-blue-400 font-semibold"
+            : "text-black";
           return (
             <TouchableOpacity
               key={cat.idCategory}
               onPress={() => handleChangeCategory(cat.strCategory)}
-              style={tw`flex items-center space-y-1`}
+              style={tw`flex items-center gap-y-1`}
             >
               <View style={tw`rounded-full p-[6px] ${activeButtonClass}`}>
                 <Image
@@ -47,7 +52,7 @@ const Categories: FC<CategoryProps> = ({
                 />
               </View>
               <Text
-                style={tw.style("text-neutral-600", {
+                style={tw.style("text-neutral-600", activeCategoryTextClass, {
                   fontSize: hp(1.6),
                 })}
               >

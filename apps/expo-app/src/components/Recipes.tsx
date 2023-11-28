@@ -8,13 +8,13 @@ import type { Category, Meal } from "@/models";
 import RecipeCard from "./RecipeCard";
 
 type RecipesProps = {
-  categories: Category[];
   meals: Meal[];
+  isLoading?: boolean;
 };
 
-const Recipes: FC<RecipesProps> = ({ categories, meals }) => {
+const Recipes: FC<RecipesProps> = ({ meals, isLoading = false }) => {
   return (
-    <View style={tw`mx-4 space-y-3`}>
+    <View style={tw`mx-4 gap-y-3 mt-4`}>
       <Text
         style={tw.style("font-semibold text-neutral-600", {
           fontSize: hp(3),
@@ -23,7 +23,7 @@ const Recipes: FC<RecipesProps> = ({ categories, meals }) => {
         Recipes
       </Text>
       <View>
-        {categories.length === 0 || meals.length === 0 ? (
+        {isLoading ? (
           <LoadingIndicator size="large" style={tw`mt-20`} />
         ) : (
           <MasonryList
@@ -36,6 +36,13 @@ const Recipes: FC<RecipesProps> = ({ categories, meals }) => {
             )}
             onEndReachedThreshold={0.1}
           />
+        )}
+
+        {/* Handle empty data */}
+        {!isLoading && meals?.length === 0 && (
+          <View style={tw`flex-1 flex justify-center items-center`}>
+            <Text style={tw`text-neutral-600`}>No recipes found</Text>
+          </View>
         )}
       </View>
     </View>

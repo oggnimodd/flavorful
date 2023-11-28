@@ -9,7 +9,7 @@ import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
 import type { Meal } from "@/models";
 import { RootStackParamList } from "@/screens/types";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 type RecipeCardProps = {
   item: Meal;
@@ -19,7 +19,7 @@ type RecipeCardProps = {
 const RecipeCard: FC<RecipeCardProps> = ({ item, index }) => {
   const navigation =
     useNavigation<
-      NativeStackScreenProps<RootStackParamList, "RecipeDetailScreen">
+      NativeStackNavigationProp<RootStackParamList, "RecipeDetailScreen">
     >();
 
   const isEven = index % 2 === 0;
@@ -33,14 +33,12 @@ const RecipeCard: FC<RecipeCardProps> = ({ item, index }) => {
     >
       <Pressable
         style={{
-          ...tw`flex justify-center mb-4 space-y-1`,
+          ...tw`flex justify-center mb-4 gap-y-1`,
           width: "100%",
           paddingLeft: isEven ? 0 : 8,
           paddingRight: isEven ? 8 : 0,
         }}
-        onPress={() =>
-          navigation.navigation.navigate("RecipeDetailScreen", { item })
-        }
+        onPress={() => navigation.navigate("RecipeDetailScreen", { item })}
       >
         <Image
           source={{ uri: item.strMealThumb }}
@@ -54,7 +52,7 @@ const RecipeCard: FC<RecipeCardProps> = ({ item, index }) => {
 
         <Text
           style={tw.style("font-semibold ml-2 text-neutral-600", {
-            fontSize: hp(1.5),
+            fontSize: hp(2),
           })}
         >
           {item.strMeal.length > 20
