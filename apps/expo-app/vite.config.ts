@@ -4,6 +4,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { viteCommonjs, esbuildCommonjs } from "@originjs/vite-plugin-commonjs";
+import path from "path";
 // import { esbuildFlowPlugin } from "@bunchtogether/vite-plugin-flow";
 
 // https://tamagui.dev/docs/intro/installation
@@ -39,6 +40,10 @@ export default defineConfig({
     extensions: extensions,
     alias: {
       "react-native": "react-native-web",
+      "react-native-youtube-iframe": path.resolve(
+        __dirname,
+        "./src/hack/YouTubeIframe.tsx",
+      ),
     },
   },
   optimizeDeps: {
