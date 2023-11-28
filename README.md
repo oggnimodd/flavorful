@@ -1,5 +1,7 @@
 # Flavorful App
 
+![Banner](./ss/banner.png)
+
 ## Description
 
 Flavorful is a mobile application built with React Native and Expo. The application is designed to provide users with a platform to discover and learn about various recipes. Users can search for recipes, view detailed information about each recipe. The application also includes a user-friendly interface that makes it easy for users to navigate and interact with the app.
