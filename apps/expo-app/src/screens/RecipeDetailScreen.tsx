@@ -44,8 +44,6 @@ const RecipeDetailScreen: FC<RecipeDetailScreenProps> = ({
     queryFn: () => getMealDetail(item.idMeal),
   });
 
-  console.log(meal);
-
   const getYoutubeVideoId = (url?: string) => {
     if (!url) return null;
 
